@@ -1,0 +1,148 @@
+
+The below task lets you
+
+Create Trailhead playground.
+Install Salesforce CLI.
+Install Visual Studio Code and extensions for Salesforce DX.
+Create and deploy a Lightning web component.
+
+
+1.  Create a Trailhead Playground.     
+2.  Once you have a Trailhead Playground, click Launch.
+3.  Reset your password. You need both your username and password to authenticate your Trailhead Playground with the Salesforce CLI in a later step.
+4.  Click and select Setup.
+5.  Enter users in the Quick Find box, then click Users.
+6.  Locate your name on the list of users.
+7.  Select the checkbox next to your name. Make note of the username. This is the username for your Trailhead Playground
+8.  Click Reset Password(s) then OK. This sends a password reset email to the email address associated with your username. 
+9.  Click the link in the email.
+10. Set your password. save your credentials to playground.
+
+
+11. Install the Command Line Interface (CLI) 
+
+Operating System 
+Link to Installer
+macOS: https://sfdc.co/sfdx_cli_osx 
+Windows 32-bit: https://sfdc.co/sfdx_cli_win 
+Windows 64-bit: https://sfdc.co/sfdx_cli_win64 
+Debian/Ubuntu 64: https://sfdc.co/sfdx_cli_linux 
+                  Download the archive from one of the URLs in the manifest, extract the archive, then run the ./install script. 
+Debian/Ubuntu x86: https://sfdc.co/sfdx_cli_linux_x86 
+                   Download the archive from one of the URLs in the manifest, extract the archive, then run the ./install script. 
+
+12. Let’s make sure the CLI is properly installed and you know how to access online help for the commands. In a command window, enter sfdx as below.
+
+C:\Users\DELL>sfdx
+Usage: sfdx COMMAND
+
+Help topics, type sfdx help TOPIC for more details:
+
+ force    tools for the Salesforce developer
+ help     display help for <%= config.bin %>
+ plugins  add/remove/create CLI plug-ins
+ update   update the sfdx CLI
+
+13. Install and setup Salesforce Extensions for Visual Studio Code.
+
+-> Download and install the latest version of Visual Studio Code for your operating system. If you already have Visual Studio Code installed, there’s no need to    reinstall it.
+-> Launch Visual Studio Code.
+-> On the left toolbar, click the  Extensions icon.
+-> Search for Salesforce Extension Pack and click Install. If you already have it installed, then you just need to click on the Reload button. 
+
+13. Ensure Your Development Environment Is Ready.
+
+-> In Visual Studio code, open the Command Palette by pressing Ctrl+Shift+P on Windows or Cmd+Shift+P on macOS.
+-> Enter sfdx to filter for commands provided by the Salesforce Extensions. As you use more SFDX commands, those commands will show up in the recently used panel.
+-> In the final step, you create your first Lightning web component and add it to your org’s home page.
+
+
+
+
+14. Create a Salesforce DX Project 
+
+-> In Visual Studio code, open the Command Palette by pressing Ctrl+Shift+P on Windows or Cmd+Shift+P on macOS.
+-> Type SFDX.
+-> Select SFDX: Create Project.
+-> Enter HelloWorldLightningWebComponent as the project name.
+-> Press Enter.
+-> Select a folder to store the project.
+-> Click Create Project. 
+
+15. Authorize Your Trailhead Playground 
+
+-> In Visual Studio code, open the Command Palette by pressing Ctrl+Shift+P on Windows or Cmd+Shift+P on macOS.
+-> Type SFDX.
+-> Select SFDX: Authorize an Org.
+-> Press Enter to accept the Project Default login URL option.
+-> Press Enter to accept the default alias.
+-> Log in using your Trailhead Playground credentials.
+-> If prompted to allow access, click Allow. 
+-> After you authenticate in the browser, the CLI remembers your credentials.
+
+16. Create a Lightning Web Component 
+
+-> In Visual Studio code, open the Command Palette by pressing Ctrl+Shift+P on Windows or Cmd+Shift+P on macOS.
+-> Type SFDX.
+-> Select SFDX: Create Lightning Web Component.
+-> Press Enter to accept the default force-app/main/default/lwc.
+-> Enter helloWorld for the name of the new component.
+-> Press Enter.
+-> View the newly created files in Visual Studio Code. 
+
+In the HTML file, helloWorld.html, copy and paste the following code and save.
+<template>
+    <lightning-card title="HelloWorld" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <p>Hello, {greeting}!</p>
+            <lightning-input label="Name" value={greeting} onchange={changeHandler}></lightning-input>
+        </div>
+    </lightning-card>
+</template>
+
+In the JavaScript file, helloWorld.js, copy and paste the following code and save.
+import { LightningElement, track } from 'lwc';
+export default class HelloWorld extends LightningElement {
+    @track greeting = 'World';
+    changeHandler(event) {
+        this.greeting = event.target.value;
+    }
+}
+
+In the XML file helloWorld.js-meta.xml, copy and paste the following code and save.
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="helloWorld">
+  <apiVersion>45.0</apiVersion>
+  <isExposed>true</isExposed>
+  <targets>
+    <target>lightning__AppPage</target>
+    <target>lightning__RecordPage</target>
+    <target>lightning__HomePage</target>
+  </targets>
+</LightningComponentBundle>
+
+17. Deploy to Your Trailhead Playground 
+
+-> Right-click the default folder. 
+
+
+-> Click SFDX: Deploy Source to Org.
+-> In the Output tab of the integrated terminal, view the results of your deployment. You should have also received a notice that states: SFDX: Deploy Source to Org       ended with exit code 0. This means that the command ran successfully. 
+
+18. Add Component to App in Lightning Experience 
+
+-> In Visual Studio code, open the Command Palette by pressing Ctrl+Shift+P on Windows or Cmd+Shift+P on macOS.
+-> Type SFDX.
+-> Select SFDX: Open Default Org.
+-> Click the app launcher icon to open the App Launcher, then click Sales. 
+-> Click the gear icon  to reveal the Setup menu, then click Edit Page.
+-> Drag the helloWorld Lightning web component from the list of custom components to the top of the Page Canvas.   
+-> Click Save.
+-> Click Activate.
+-> Click Assign as Org Default.
+-> Click Save. 
+-> Click Save again, then click Back to return to the Home page.
+-> Refresh the page to view your new component.  
+
+
+You’ve officially made your first Lightning web component using visual studio code.

@@ -1,0 +1,48 @@
+Description: This lightning component code will autoredirect to logged user Accounts page.
+
+Component Code:
+--------------
+<aura:component controller="NapaliCommunityController"
+                implements="forceCommunity:availableForAllPageTypes" 
+                access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.redirectToAccount}"/>
+</aura:component>
+
+
+JS Controller:
+--------------
+({
+	redirectToAccount : function(component, event, helper) {
+		var loggedInUser;
+        var state;
+        var navEvt;
+        
+        var action = component.get("c.getLoggedInUser");
+        action.setCallback(this, function(response) {
+            state = response.getState();
+            if(state == "SUCCESS"){
+                loggedInUser = response.getReturnValue();
+                navEvt = $A.get("e.force:navigateToSObject");
+                navEvt.setParams({                    
+                    "recordId": loggedInUser.Contact.AccountId,
+                    "slideDevName": "detail"                    
+                })               
+                navEvt.fire();                
+            }           
+            
+        });
+        $A.enqueueAction(action);
+	}
+})
+
+
+Apex Class:
+-----------
+public class NapaliCommunityController {
+@AuraEnabled
+    public static User getLoggedInUser(){
+        System.debug('User Id: ' + UserInfo.getUserId());
+        System.debug('User Id: ' + UserInfo.getFirstName());        
+        return [SELECT Id, Contact.AccountId FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];        
+    }
+}

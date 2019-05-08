@@ -36,7 +36,9 @@ JS Controller:
     GetProfileID : function(component, event, helper) {
         var state;
         var redirectUrl;
-        var loggedInUser;        
+        var loggedInUser;
+        var stateId;
+        var viewId;
         var action = component.get("c.getLoggedInUser");
         action.setCallback(this, function(response) {
             state = response.getState();
@@ -48,11 +50,23 @@ JS Controller:
                 component.set("v.firstName",loggedInUser.First_Name__c);
                 component.set("v.lastName",loggedInUser.Last_Name__c);
                 component.set("v.responseStatus",true);
+                component.set("v.profileUrl",redirectUrl);
             }else{
-                redirectUrl = 'team-member-profile/Team_Member_Profile__c/00B0o00000EVziREAT';
-                component.set("v.responseStatus",false);
-            }          
-            component.set("v.profileUrl",redirectUrl);
+                var actionId = component.get("c.getListFilter");
+                actionId.setCallback(this, function(response) {
+                    stateId = response.getState();
+                    if(stateId == "SUCCESS"){
+                        viewId = response.getReturnValue(); 
+                        //redirectUrl = 'team-member-profile/Team_Member_Profile__c/00B0o00000EVziREAT';
+                        redirectUrl = 'team-member-profile/Team_Member_Profile__c/'+viewId.Id;
+                        component.set("v.profileUrl",redirectUrl);
+                        component.set("v.responseStatus",false);
+                    }else{
+                        
+                    }
+                });
+                $A.enqueueAction(actionId);                
+            }           
         });
         $A.enqueueAction(action);
     }
@@ -72,5 +86,6 @@ public class GetProfileId {
     @AuraEnabled
     public static ListView getListFilter(){
        return [SELECT Id FROM ListView where Name = 'My Profiles' LIMIT 1];        
-    }
+    }  
+    
 }
